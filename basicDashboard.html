@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unfinished Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      height: 100vh;
+    }
+    .page {
+      display: flex;
+      flex: 1;
+    }
+    .sidebar {
+      width: 200px;
+      background: #f0f0f0;
+      padding: 10px;
+    }
+    .menu {
+      list-style: none;
+      padding: 0;
+    }
+    .menu li {
+      margin: 10px 0;
+    }
+    .menu a {
+      text-decoration: none;
+      color: #333;
+    }
+    .main {
+      flex: 1;
+      padding: 20px;
+    }
+    .navbar {
+      margin-bottom: 20px;
+    }
+    .search-row {
+      margin-bottom: 20px;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <aside class="sidebar">
+      <a class="brand" href="#">DASHBOARD</a>
+      <ul class="menu">
+        <li><a class="active" href="#">Dashboard</a></li>
+        <li><a href="#">Orders</a></li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <nav class="navbar">
+        <div class="title">Welcome</div>
+      </nav>
+
+      <div class="search-row">
+        <input type="text" placeholder="Search..." />
+      </div>
+
+      <section class="card-grid">
+        <div class="card">
+          <h2>Users</h2>
+          <p>Content for card 1.</p>
+        </div>
+        <div class="card">
+          <h2>Product</h2>
+          <p>Content for card 2.</p>
+        </div>
+        <div class="card">
+          <h2>Orders</h2>
+          <p>Content for card 3.</p>
+        </div>
+      </section>
+
+      <section class="card-grid">
+        <div class="card">
+          <h2>Users</h2>
+          <p>Content for card 1.</p>
+        </div>
+        <div class="card">
+          <h2>Product</h2>
+          <p>Content for card 2.</p>
+        </div>
+        <div class="card">
+          <h2>Orders</h2>
+          <p>Content for card 3.</p>
+        </div>
+      </section>
+      
+    </main>
+  </div>
+</body>
+</html>

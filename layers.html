@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @layer base,none,special;
+         @layer base {
+            .page{
+                font-size: 50px;
+                color: green;
+            }
+            .para{
+                font-size: 30px;
+                color: red;
+            }
+        }
+        @layer special {
+            .highlight-page{
+                font-size: 60px;
+                color: orange;
+            }
+            .highlight-para{
+                font-size: 45px;
+                color: blue;
+            }
+        }
+        @layer none{
+            .highlight-page{
+                font-size: 100px;
+                color: black;
+            }
+            .highlight-para{
+                font-size: 90px;
+                color: yellow;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <h2 class="page highlight-page">Welcome to the page</h2>
+    <p class="para highlight-para">hello world</p>
+</body>
+</html>
