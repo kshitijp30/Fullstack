@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Reaction Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f1f5f9;
+            padding: 40px 15px;
+        }
+
+        .game {
+            max-width: 400px;
+            margin: auto;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px #0002;
+        }
+
+        #box {
+            margin: 20px 0;
+            padding: 60px 10px;
+            background: #64748b;
+            color: white;
+            border-radius: 12px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .ready {
+            background: #16a34a !important;
+        }
+
+        .best {
+            color: #16a34a;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="game">
+    <h1>⚡ Reaction Timer</h1>
+    <p>Touch the box to start!</p>
+
+    <div id="box">Touch to Start</div>
+
+    <h3 id="result">Your time: -- ms</h3>
+    <p class="best" id="best">All-Time Best: -- ms</p>
+</div>
+
+<script>
+    const box = document.getElementById("box");
+    const result = document.getElementById("result");
+    const bestText = document.getElementById("best");
+
+    let state = "idle";
+    let startTime, timeout;
+
+    let best = localStorage.getItem("bestScore");
+    bestText.textContent = "All-Time Best: " + (best ? best + " ms" : "-- ms");
+
+    box.onclick = function() {
+        if (state === "idle") {
+            state = "waiting";
+            box.classList.remove("ready");
+            box.textContent = "Wait for green...";
+            result.textContent = "Get ready!";
+
+            timeout = setTimeout(() => {
+                box.classList.add("ready");
+                box.textContent = "CLICK NOW!";
+                startTime = Date.now();
+                state = "ready";
+            }, Math.random() * 3000 + 1000);
+
+        } else if (state === "waiting") {
+            clearTimeout(timeout);
+            box.textContent = "Too early! Touch to retry.";
+            result.textContent = "Don't click before green!";
+            state = "idle";
+
+        } else if (state === "ready") {
+            let reaction = Date.now() - startTime;
+
+            result.textContent = "Your time: " + reaction + " ms";
+
+            if (best === null || reaction < Number(best)) {
+                best = reaction;
+                localStorage.setItem("bestScore", best);
+                bestText.textContent = "🏆 All-Time Best: " + best + " ms";
+            }
+
+            box.classList.remove("ready");
+            box.textContent = "Touch to Play Again";
+            state = "idle";
+        }
+    };
+</script>
+
+</body>
+</html>

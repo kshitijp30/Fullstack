@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Number</title>
+</head>
+
+<body>
+    <main>
+        <h1>Guess the Number</h1>
+        <p class="range">Choose a number between <strong>1 and 100</strong></p>
+
+        <form id="guess-form">
+            <input id="guess" type="number" min="1" max="100"
+                step="1" placeholder="Your guess" required>
+            <button type="submit">Guess</button>
+        </form>
+
+        <p class="message" id="message">Let's start guessing!</p>
+        <p class="count" id="count">Guesses: 0</p>
+
+        <button class="reset" id="reset" type="button">↻ New Game</button>
+    </main>
+
+    <script>
+        const form = document.getElementById("guess-form");
+        const input = document.getElementById("guess");
+        const message = document.getElementById("message");
+        const count = document.getElementById("count");
+        const submit = form.querySelector("button");
+
+        let answer, guesses, finished;
+
+        function startGame() {
+            answer = Math.floor(Math.random() * 100) + 1;
+            guesses = 0;
+            finished = false;
+
+            input.value = "";
+            input.disabled = false;
+            submit.disabled = false;
+            message.textContent = "Let's start guessing!";
+            count.textContent = "Guesses: 0";
+            input.focus();
+        }
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            if (finished) return;
+
+            const value = Number(input.value);
+
+            if (!Number.isInteger(value) || value < 1 || value > 100) {
+                message.textContent = "Enter a number from 1 to 100.";
+                return;
+            }
+
+            guesses++;
+            count.textContent = `Guesses: ${guesses}`;
+
+            if (value === answer) {
+                message.textContent = `🎉 Correct! The number was ${answer}.`;
+                finished = true;
+                input.disabled = true;
+                submit.disabled = true;
+            } else if (value < answer) {
+                message.textContent = "📈 Too low! Try a higher number.";
+            } else {
+                message.textContent = "📉 Too high! Try a lower number.";
+            }
+
+            if (!finished) input.select();
+        });
+
+        document.getElementById("reset").addEventListener("click", startGame);
+
+        startGame();
+    </script>
+</body>
+</html>

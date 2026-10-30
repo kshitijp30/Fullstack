@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Arena</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <div class="quiz-card">
+        <header>
+            <h1>Quiz Arena</h1>
+            <p>Score: <span id="score">0</span></p>
+        </header>
+
+        <div class="info">
+            <span id="question-count">Question 1/5</span>
+            <span id="timer">00:30</span>
+        </div>
+
+        <div class="progress">
+            <div id="progress-fill"></div>
+        </div>
+
+        <section id="quiz-screen">
+            <p class="category">GENERAL KNOWLEDGE</p>
+            <h2 id="question">Question will appear here</h2>
+
+            <div id="options" class="options"></div>
+
+            <p id="message">Choose one answer.</p>
+            <p id="explanation"></p>
+
+            <div class="buttons">
+                <button id="restart-btn" class="restart">Restart</button>
+                <button id="next-btn" disabled>Next</button>
+            </div>
+        </section>
+
+        <section id="result-screen" hidden>
+            <h2>Quiz Completed!</h2>
+            <p id="final-score"></p>
+            <p id="rating"></p>
+
+            <button id="review-btn">Review Wrong Answers</button>
+            <button id="play-again-btn">Play Again</button>
+
+            <div id="review-list"></div>
+        </section>
+    </div>
+
+</body>
+</html>

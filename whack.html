@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Whack-a-Mole</title>
+
+    <style>
+        .game {
+            max-width: 350px;
+            margin: 20px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+        }
+
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .active { background: #86efac; }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .hole {
+            height: 75px;
+            font-size: 35px;
+            background: #dcfce7;
+        }
+
+        #start {
+            width: 100%;
+            background: #16a34a;
+            color: white;
+        }
+
+        #message { margin-top: 15px; }
+    </style>
+</head>
+
+<body>
+<div class="game">
+    <h2>🏴‍☠️Whack-a-Mole</h2>
+
+    <div id="levels">
+        <button data-level="easy">Easy</button>
+        <button class="active" data-level="medium">Medium</button>
+        <button data-level="hard">Hard</button>
+    </div>
+
+    <div class="stats">
+        <p>Score: <b id="score">0</b></p>
+        <p>Time: <b id="time">30</b>s</p>
+    </div>
+
+    <div class="grid" id="grid"></div>
+    <button id="start">Start Game</button>
+    <p id="message">Choose difficulty and start!</p>
+</div>
+
+<script>
+    const grid = document.getElementById("grid");
+    const scoreText = document.getElementById("score");
+    const timeText = document.getElementById("time");
+    const message = document.getElementById("message");
+    const start = document.getElementById("start");
+
+    const levels = {
+        easy: [1100, 40],
+        medium: [750, 30],
+        hard: [450, 20]
+    };
+
+    let level = "medium", score = 0, time = 30;
+    let mole = -1, playing = false, timer, moleTimer;
+
+    for (let i = 0; i < 9; i++) {
+        let hole = document.createElement("button");
+        hole.className = "hole";
+        hole.textContent = "🕳️";
+        grid.appendChild(hole);
+
+        hole.onclick = () => {
+            if (playing && i === mole) {
+                scoreText.textContent = ++score;
+                showMole();
+            }
+        };
+    }
+
+    document.querySelectorAll("[data-level]").forEach(btn => {
+        btn.onclick = () => {
+            if (playing) return;
+            level = btn.dataset.level;
+            document.querySelectorAll("[data-level]")
+                .forEach(b => b.classList.toggle("active", b === btn));
+            timeText.textContent = levels[level][1];
+        };
+    });
+
+    function showMole() {
+        let holes = document.querySelectorAll(".hole");
+        holes.forEach(h => h.textContent = "🕳️");
+        let next;
+        do { next = Math.floor(Math.random() * 9); }
+        while (next === mole);
+        mole = next;
+        holes[mole].textContent = "🥴";
+    }
+
+    start.onclick = () => {
+        clearInterval(timer);
+        clearInterval(moleTimer);
+
+        score = 0;
+        time = levels[level][1];
+        playing = true;
+        mole = -1;
+
+        scoreText.textContent = score;
+        timeText.textContent = time;
+        message.textContent = "Whack as many as you can!";
+        start.textContent = "Restart Game";
+
+        showMole();
+        moleTimer = setInterval(showMole, levels[level][0]);
+
+        timer = setInterval(() => {
+            timeText.textContent = --time;
+
+            if (time <= 0) {
+                clearInterval(timer);
+                clearInterval(moleTimer);
+                playing = false;
+                mole = -1;
+
+                document.querySelectorAll(".hole")
+                    .forEach(h => h.textContent = "🕳️");
+
+                message.textContent = `🎉 Game Over! Score: ${score}`;
+                start.textContent = "Play Again";
+            }
+        }, 1000);
+    };
+</script>
+</body>
+</html>
